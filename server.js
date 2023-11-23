@@ -25,7 +25,7 @@ mongoose
 app.use(express.json());
 app.use("/api/cards", cardRouter);
 
-//http://localhost:5000で表示を確認
+//表示を確認
 app.get("/", (req, res) => {
   res.send("home express");
 });

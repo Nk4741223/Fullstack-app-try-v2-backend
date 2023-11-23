@@ -4,16 +4,12 @@ const cardSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      // require: true,
+      default: "",
     },
     content: {
       type: String,
       default: "",
     },
-    // active: {
-    //   type: Boolean,
-    //   default: false,
-    // },
   },
   { timestamps: true }
 );
