@@ -13,7 +13,10 @@ app.use(cors());
 
 //データベース接続
 mongoose
-  .connect(process.env.MONGO_HEROKU_URL || process.env.MONGOURL)
+  .connect(process.env.MONGO_HEROKU_URL || process.env.MONGOURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("DBと接続中・・・");
   })

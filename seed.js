@@ -8,7 +8,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("seedデータの挿入のため、DBと接続中・・・");
+    console.log("seedデータ挿入のため、DBと接続中・・・");
   })
   .catch((err) => {
     console.log(err);
@@ -24,7 +24,6 @@ const seedData = [
   { title: "レストラン名古屋", content: "12/22に予約してます" },
 ];
 
-// async function seedDatabase() {
 const seedDatabase = async (req, res) => {
   try {
     await Card.deleteMany({}); // 既存のデータをクリア
@@ -32,10 +31,10 @@ const seedDatabase = async (req, res) => {
     console.log("seedデータの挿入に成功しました");
   } catch (err) {
     console.log(err);
+  } finally {
+    mongoose.disconnect();
+    console.log("DBとの接続を閉じます");
   }
-  // finally {
-  //   mongoose.disconnect();
-  // }
 };
 
 seedDatabase();
