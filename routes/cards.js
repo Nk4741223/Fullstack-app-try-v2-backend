@@ -39,7 +39,8 @@ router.put("/:id", async (req, res) => {
     await card.updateOne({
       $set: req.body,
     });
-    return res.status(200).json("カードの更新に成功しました");
+    const newCard = await Card.findById(req.params.id);
+    return res.status(200).json(newCard);
   } catch (err) {
     return res.status(500).json(err);
   }

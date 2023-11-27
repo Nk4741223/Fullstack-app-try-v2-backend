@@ -1,4 +1,3 @@
-const { application } = require("express");
 const express = require("express");
 const app = express();
 const cardRouter = require("./routes/cards");
@@ -9,6 +8,7 @@ require("dotenv").config();
 
 //CROS対策
 const cors = require("cors");
+const { deleteOne } = require("./models/Card");
 app.use(cors());
 
 //データベース接続
@@ -30,7 +30,11 @@ app.use("/api/cards", cardRouter);
 
 //表示を確認
 app.get("/", (req, res) => {
-  res.send("home express");
+  res.status(200).json("home express");
 });
 
-app.listen(PORT, () => console.log("サーバーが起動しました"));
+const server = app.listen(PORT, () => {
+  console.log("サーバーが起動しました");
+});
+
+module.exports = { app, server };
