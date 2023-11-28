@@ -1,19 +1,12 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const { app, server } = require("../server"); // アプリのエントリーポイントへのパス
+const { server } = require("../server");
+const Card = require("../models/Card");
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe("CRUD API Tests", () => {
-  it("should get home route", async () => {
-    const res = await chai.request(server).get("/");
-
-    console.log("返答：", res.body);
-    expect(res).to.have.status(200);
-    expect(res.body).eql("home express");
-  });
-
   it("should get all cards", async () => {
     const res = await chai.request(server).get("/api/cards");
 
@@ -55,5 +48,24 @@ describe("CRUD API Tests", () => {
     const res = await chai.request(server).delete(`/api/cards/${cardId}`);
     expect(res).to.have.status(200);
     expect(res.body).eql("カードの削除に成功しました");
+  });
+});
+
+describe("Search Test", () => {
+  it("should return cards matching the search query", async () => {
+    // テスト用のアイテムをデータベースに追加
+    const testCard = new Card({
+      title: "Test Card",
+      content: "This is a test card for search functionality",
+    });
+    await testCard.save();
+
+    const res = await chai
+      .request(server)
+      .get("/api/cards/search/query")
+      .query({ q: "Test Car" });
+
+    expect(res).to.have.status(200);
+    expect(res.body[0].title).eql("Test Card");
   });
 });
